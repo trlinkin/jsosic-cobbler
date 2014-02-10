@@ -5,6 +5,8 @@
 define cobbler::add_distro (
   $arch,
   $isolink,
+  $breed,
+  $os_version,
   $kernel            = 'images/pxeboot/vmlinuz',
   $initrd            = 'images/pxeboot/initrd.img',
   $ks_template       = "cobbler/${title}.ks.erb",
@@ -15,13 +17,15 @@ define cobbler::add_distro (
   $distro = $title
   $server_ip = $::cobbler::server_ip
   cobblerdistro { $distro :
-    ensure  => present,
-    arch    => $arch,
-    isolink => $isolink,
-    destdir => $::cobbler::distro_path,
-    kernel  => "${::cobbler::distro_path}/${distro}/${kernel}",
-    initrd  => "${::cobbler::distro_path}/${distro}/${initrd}",
-    require => [ Service[$::cobbler::service_name], Service[$::cobbler::apache_service] ],
+    ensure     => present,
+    arch       => $arch,
+    isolink    => $isolink,
+    breed      => $breed,
+    os_version => $os_version,
+    destdir    => $::cobbler::distro_path,
+    kernel     => "${::cobbler::distro_path}/${distro}/${kernel}",
+    initrd     => "${::cobbler::distro_path}/${distro}/${initrd}",
+    require    => [ Service[$::cobbler::service_name], Service[$::cobbler::apache_service] ],
   }
   $defaultrootpw = $::cobbler::defaultrootpw
   if ($include_kickstart) {
