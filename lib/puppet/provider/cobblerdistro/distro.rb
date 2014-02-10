@@ -91,13 +91,13 @@ Puppet::Type.type(:cobblerdistro).provide(:distro) do
 
   # Support cobbler's --breed
   def breed=(value)
-    cobbler('distro', 'edit', '--name=' + @resource[:name], '--breed=' + value)
+    cobbler('distro', 'edit', '--name=' + @resource[:name], '--breed=' + value) unless value == ''
     @property_hash[:breed]=(value)
   end
  
   # Support cobbler's --os-version
   def os_version=(value)
-    cobbler('distro', 'edit', '--name=' + @resource[:name], '--os-version=' + value)
+    cobbler('distro', 'edit', '--name=' + @resource[:name], '--os-version=' + value) unless value == ''
     @property_hash[:os_version]=(value)
   end
 
