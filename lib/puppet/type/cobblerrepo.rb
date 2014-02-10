@@ -35,7 +35,7 @@ x86_64 to cobbler, set it's priority to 99 and mirror it locally."
       when :i86pc
         :i386
       else
-        super
+        value
       end
     end
   end
