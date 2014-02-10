@@ -88,7 +88,7 @@ Puppet::Type.type(:cobblerprofile).provide(:profile) do
       # create cobblerargs variable
       cobblerargs  = 'profile add --name=' + @resource[:name] 
       cobblerargs += ' --distro=' + @resource[:distro] unless @resource[:distro].nil?
-      cobblerargs += ' --parent=' + @resource[:parent] unless @resource[:parent] != ''
+      cobblerargs += ' --parent=' + @resource[:parent] unless @resource[:parent] == ''
       
       # turn string into array
       cobblerargs = cobblerargs.split(' ')
