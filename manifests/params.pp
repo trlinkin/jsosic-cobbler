@@ -15,6 +15,16 @@ class cobbler::params {
       $distro_path         = '/distro'
       $apache_service      = 'httpd'
       $default_kickstart   = '/var/lib/cobbler/kickstarts/default.ks'
+
+      case $::operatingsystemmajrelease {
+        '5': {
+          $django_package = "http://s3-us-west-2.amazonaws.com/rapid-deployment/packages/redhat/5/${::architecture}/Django-1.1.4-1.noarch.rpm"
+          $django_package_provider = 'rpm'
+        }
+        default: {
+          $django_package = undef
+        }
+      }
     }
     'Debian': {
       $service_name        = 'cobbler'

@@ -10,14 +10,24 @@
 class cobbler::web (
   $package_ensure   = $::cobbler::package_ensure,
   $dependency_class = $::cobbler::web::dependency_class,
-) inherits cobbler {
+) inherits cobbler::params {
 
   # include dependencies
-  if $::cobbler::web::dependency_class {
+  if $::cobbler::web::dependency_class != undef {
     include $::cobbler::web::dependency_class
   }
 
-
+  if $::cobbler::params::package_name_web == undef {
+    fail("If you include cobbler::web, you must define \$::cobbler::params::package_name_web for ${osfamily}.")
+  }
+  if $::cobbler::params::django_package {
+    package { 'Django':
+      ensure   => installed,
+      provider => $::cobbler::params::django_package_provider,
+      source   => $::cobbler::params::django_package,
+      before   => Package[$::cobbler::params::package_name_web],
+    }
+  }
   package { $::cobbler::params::package_name_web:
     ensure => $package_ensure,
   }

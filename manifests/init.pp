@@ -152,6 +152,10 @@ class cobbler (
     content => template('cobbler/proxy_cobbler.conf.erb'),
     notify  => Service[$apache_service],
   }
+  file { $webroot :
+    ensure => directory,
+    mode   => '0755',
+  }
   file { $distro_path :
     ensure => directory,
     mode   => '0755',
