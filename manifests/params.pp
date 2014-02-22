@@ -15,7 +15,7 @@ class cobbler::params {
       $distro_path         = '/distro'
       $apache_service      = 'httpd'
       $default_kickstart   = '/var/lib/cobbler/kickstarts/default.ks'
-
+      $cobbler_web_ensure_type = file
       case $::operatingsystemmajrelease {
         '5': {
           $django_package = "http://s3-us-west-2.amazonaws.com/rapid-deployment/packages/redhat/5/${::architecture}/Django-1.1.4-1.noarch.rpm"
@@ -38,6 +38,14 @@ class cobbler::params {
       $distro_path         = '/var/www/cobbler/ks_mirror'
       $apache_service      = 'apache2'
       $default_kickstart   = '/var/lib/cobbler/kickstarts/ubuntu-server.preseed'
+      case $::operatingsystem {
+        'Ubuntu': {
+          $cobbler_web_ensure_type = link
+        }
+        default: {
+          $cobbler_web_ensure_type = file
+        }
+      }
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, module ${module_name} currently only supports osfamily RedHat")

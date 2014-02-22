@@ -130,7 +130,7 @@ default_virt_type: xenpv
 # and if a profile/system is configured to boot via gpxe it will 
 # chain load off pxelinux.0.
 # Default: 0
-<% if scope.lookupvar('::operatingsystem') == 'Ubuntu' -%>
+<% if scope['::operatingsystem'] == 'Ubuntu' -%>
 use_gpxe: 0
 <% else -%>
 enable_gpxe: 0

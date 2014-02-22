@@ -32,7 +32,7 @@ class cobbler::web (
     ensure => $package_ensure,
   }
   file { "${::cobbler::params::http_config_prefix}/cobbler_web.conf":
-    ensure  => file,
+    ensure  => $::cobbler::params::cobbler_web_ensure_type,
     owner   => root,
     group   => root,
     mode    => '0644',
