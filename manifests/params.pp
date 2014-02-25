@@ -27,7 +27,6 @@ class cobbler::params {
       }
     }
     'Debian': {
-      $service_name        = 'cobbler'
       $package_name        = 'cobbler'
       $package_name_web    = 'cobbler-web'
       $tftp_package        = 'tftpd-hpa'
@@ -40,10 +39,15 @@ class cobbler::params {
       $default_kickstart   = '/var/lib/cobbler/kickstarts/ubuntu-server.preseed'
       case $::operatingsystem {
         'Ubuntu': {
+          $service_name = 'cobbler'
           $cobbler_web_ensure_type = link
         }
-        default: {
+        'Debian': {
+          $service_name = 'cobblerd'
           $cobbler_web_ensure_type = file
+        }
+        default: {
+          fail("Must define $cobbler_web_ensure_type for ${::operatingsystem}")
         }
       }
     }
